@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   		http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/mvc 
+			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+			http://www.springframework.org/schema/integration 
+			http://www.springframework.org/schema/integration/spring-integration.xsd
+			http://www.springframework.org/schema/integration/ip 
+			http://www.springframework.org/schema/integration/ip/spring-integration-ip.xsd">
+	
+	<!-- Activates various annotations to be detected in bean classes -->
+	<context:annotation-config />
+	
+	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+	 For example @Controller and @Service. Make sure to set the correct base-package-->
+	<context:component-scan base-package="rs.smart.house" />
+	
+	<!-- Configures the annotation-driven Spring MVC Controller programming model.
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	<mvc:annotation-driven /> 
+	
+	<!-- Load Hibernate related configuration -->
+	<import resource="hibernate-context.xml" />
+	
+
+	<int-ip:tcp-connection-factory id="crLfServer"
+		type="server"
+		port="9876"/>
+
+	<int-ip:tcp-inbound-gateway id="gatewayCrLf"
+		connection-factory="crLfServer"
+		request-channel="toSA" />
+
+	<int:channel id="toSA" />
+
+	<int:service-activator input-channel="toSA"
+		ref="echoService"
+		method="test"/>
+
+	<bean id="echoService"
+		class="rs.smart.house.service.TCPService" />
+
+<!-- 	<int:transformer id="serverBytes2String" -->
+<!-- 		input-channel="serverBytes2StringChannel" -->
+<!-- 		output-channel="toSA" -->
+<!-- 		expression="new String(payload)"/> -->
+
+<!-- 	<int:transformer id="errorHandler" -->
+<!-- 		input-channel="errorChannel" -->
+<!-- 		expression="payload.failedMessage.payload + ':' + payload.cause.message"/> -->
+
+
+</beans>
