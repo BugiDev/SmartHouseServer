@@ -1,6 +1,7 @@
 package rs.smart.house.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -112,12 +113,12 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/getDevices", method = RequestMethod.POST)
-	public void authenticate(@RequestParam("userID") String userId, HttpServletResponse response) throws IOException {
+	public void getDevices(@RequestParam("userID") String userId, HttpServletResponse response) throws IOException {
 
 		Date datum = new Date();
 
 		try {
-			List<User> userList = ((List<User>) genericDao.loadByColumnRestriction(User.class, "ID", userId));
+			List<User> userList = ((List<User>) genericDao.loadByColumnRestriction(User.class, "id", Long.parseLong(userId)));
 
 			if (userList.size() < 1)
 				throw new SenergyException("User not found");
@@ -135,15 +136,25 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/turnOnOff", method = RequestMethod.POST)
-	public void turnOnOff(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+	public void turnOnOff(@RequestParam("deviceID") String deviceId, @RequestParam("deviceType") String deviceType, HttpServletResponse response) throws IOException {
 
 		Date datum = new Date();
 
 		try {
-			List<AbstractEntity> deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(AbstractEntity.class, "ID", deviceId));
-
+			List<AbstractEntity> deviceList = new ArrayList<AbstractEntity>();
+			if(deviceType.equals("Aircondition")){
+				deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(Aircondition.class, "id", Long.parseLong(deviceId)));
+			} else if (deviceType.equals("Boiler")){
+				deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(Boiler.class, "id", Long.parseLong(deviceId)));
+			} else if (deviceType.equals("Light")){
+				deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(Light.class, "id", Long.parseLong(deviceId)));
+			} else if (deviceType.equals("Windows")) {
+				deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(Windows.class, "id", Long.parseLong(deviceId)));
+			} else if (deviceType.equals("TV")) {
+				deviceList = ((List<AbstractEntity>) genericDao.loadByColumnRestriction(TV.class, "id", Long.parseLong(deviceId)));
+			}
 			if (deviceList.size() < 1)
-				throw new SenergyException("User not found");
+				throw new SenergyException("Device not found");
 			AbstractEntity deviceObj = deviceList.get(0);
 			boolean poruka;
 			if(deviceObj instanceof Aircondition) poruka = ((Aircondition) deviceObj).changePower();
@@ -152,7 +163,7 @@ public class MainController {
 			else if(deviceObj instanceof TV) poruka = ((TV) deviceObj).changePower();
 			else poruka = ((Windows)deviceObj).changePower();
 			
-			AbstractEntity izmenjeni = (AbstractEntity)genericDao.saveOrUpdate(deviceObj);
+			deviceObj = (AbstractEntity)genericDao.saveOrUpdate(deviceObj);
 			
 			response.getWriter().println(poruka);
 			
@@ -171,7 +182,7 @@ public class MainController {
 		Date datum = new Date();
 
 		try {
-			List<Temperature> userList = ((List<Temperature>) genericDao.loadByColumnRestriction(Temperature.class, "ID", deviceId));
+			List<Temperature> userList = ((List<Temperature>) genericDao.loadByColumnRestriction(Temperature.class, "ID", Long.parseLong(deviceId)));
 
 			if (userList.size() < 1)
 				throw new SenergyException("User not found");

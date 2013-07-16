@@ -84,8 +84,7 @@ public class GenericDaoImpl<T extends AbstractEntity> {
 	public T saveOrUpdate(T obj) {
 
 		refreshHibernateSession();
-		
-		hibernate.save(obj);
+		hibernate.saveOrUpdate(obj);
 		hibernate.flush();
 		
 		return findByExample(obj, obj.getClass()).get(0);
