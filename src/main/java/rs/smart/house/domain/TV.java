@@ -21,12 +21,32 @@ public class TV extends AbstractEntity {
 	
 	String room;
 
+	int chanell = 1;
+	
+	int volume = 0;
+	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getChanell() {
+		return chanell;
+	}
+
+	public void setChanell(int chanell) {
+		this.chanell = chanell;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
 	}
 
 	public Devices getDevice() {
@@ -58,5 +78,19 @@ public class TV extends AbstractEntity {
 		this.room = room;
 	}
 	
-
+	public int channelUp() {
+		return chanell++;
+	}
+	
+	public int channelDown() {
+		return chanell--;
+	}
+	
+	public int volumeUp() {
+		return volume++;
+	}
+	
+	public int volumeDown() {
+		return volume--;
+	}
 }

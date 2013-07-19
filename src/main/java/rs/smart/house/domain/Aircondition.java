@@ -21,6 +21,16 @@ public class Aircondition extends AbstractEntity {
 	String room;
 	
 	String mode;
+	
+	int temperature = 20;
+
+	public int getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(int temperature) {
+		this.temperature = temperature;
+	}
 
 	public Devices getDevice() {
 		return device;
@@ -67,5 +77,12 @@ public class Aircondition extends AbstractEntity {
 		this.room = room;
 	}
 	
+	public int airTemperatureUp() {
+		return temperature++;
+	}
+	
+	public int airTemperatureDown() {
+		return temperature--;
+	}
 
 }
