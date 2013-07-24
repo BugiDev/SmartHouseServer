@@ -1,61 +1,65 @@
 package rs.smart.house.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 public class Windows extends AbstractEntity {
 
-	@JsonIgnore
-	@ManyToOne
-	Devices device;
-	
-	boolean power;
-	
-	String room;
+    @JsonIgnore
+    @ManyToOne
+    Devices device;
+    private String direction;
+    String room;
 
-	public Long getId() {
-		return id;
-	}
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Devices getDevice() {
-		return device;
-	}
+    public Devices getDevice() {
+        return device;
+    }
 
-	public void setDevice(Devices device) {
-		this.device = device;
-	}
+    public void setDevice(Devices device) {
+        this.device = device;
+    }
 
-	public boolean isPower() {
-		return power;
-	}
+    public String getRoom() {
+        return room;
+    }
 
-	public void setPower(boolean power) {
-		this.power = power;
-	}
-	
-	public boolean changePower(){
-		power = !power;
-		return power;
-	}
+    public void setRoom(String room) {
+        this.room = room;
+    }
 
-	public String getRoom() {
-		return room;
-	}
+    /**
+     * @return the direction
+     */
+    public String getDirection() {
+        return direction;
+    }
 
-	public void setRoom(String room) {
-		this.room = room;
-	}
-	
+    /**
+     * @param direction the direction to set
+     */
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
 
+    public String changeDirection() {
+        if (getDirection().equalsIgnoreCase("up")) {
+            setDirection("down");
+            return getDirection();
+        }else{
+            setDirection("up");
+            return getDirection();
+        }
+    }
 }

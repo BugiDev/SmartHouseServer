@@ -16,7 +16,7 @@ public class Camera extends AbstractEntity {
 	@ManyToOne
 	Devices device;
 	
-	int portNumber;
+	private String path;
 	
 	String room;
 
@@ -36,14 +36,6 @@ public class Camera extends AbstractEntity {
 		this.device = device;
 	}
 
-	public int getPortNumber() {
-		return portNumber;
-	}
-
-	public void setPortNumber(int portNumber) {
-		this.portNumber = portNumber;
-	}
-
 	public String getRoom() {
 		return room;
 	}
@@ -51,6 +43,20 @@ public class Camera extends AbstractEntity {
 	public void setRoom(String room) {
 		this.room = room;
 	}
+
+    /**
+     * @return the path
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * @param path the path to set
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
 	
 
 }
