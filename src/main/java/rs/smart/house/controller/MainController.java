@@ -117,7 +117,7 @@ public class MainController {
             
             Camera cam = new Camera();
             cam.setRoom("Dnevna");
-            URL url = new URL("http://trackfield.webcam.oregonstate.edu/axis-cgi/mjpg/video.cgi?resolution=800x600&amp%3bdummy=1333689998337");
+            URL url = new URL("http://213.251.201.196/anony/mjpg.cgi");
             cam.setPath(url.toString());
             cam.setDevice(dev);
             cam = (Camera) genericDao.save(cam);
