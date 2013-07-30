@@ -5,14 +5,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,7 +91,7 @@ public class MainController {
             TV tv = new TV();
             tv.setPower(false);
             tv.setRoom("Dnevna");
-            tv.setChanell(4);
+            tv.setChannel(4);
             tv.setVolume(15);
             tv.setDevice(dev);
             tv = (TV) genericDao.save(tv);

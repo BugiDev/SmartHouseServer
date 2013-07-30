@@ -21,7 +21,7 @@ public class TV extends AbstractEntity {
 	
 	String room;
 
-	int chanell = 1;
+	int channel = 1;
 	
 	int volume = 0;
 	
@@ -33,12 +33,12 @@ public class TV extends AbstractEntity {
 		this.id = id;
 	}
 
-	public int getChanell() {
-		return chanell;
+	public int getChannel() {
+		return channel;
 	}
 
-	public void setChanell(int chanell) {
-		this.chanell = chanell;
+	public void setChannel(int channel) {
+		this.channel = channel;
 	}
 
 	public int getVolume() {
@@ -79,11 +79,11 @@ public class TV extends AbstractEntity {
 	}
 	
 	public int channelUp() {
-		return chanell++;
+		return channel++;
 	}
 	
 	public int channelDown() {
-		return chanell--;
+		return channel--;
 	}
 	
 	public int volumeUp() {
