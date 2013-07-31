@@ -102,8 +102,8 @@ public class MainController {
             air.setRoom("Dnevna");
             air.setMode("cool");
             air.setTemperature(20);
-            air = (Aircondition) genericDao.save(air);
             air.setDevice(dev);
+            air = (Aircondition) genericDao.save(air);
             dev.getAirconditionList().add(air);
             
             Windows window = new Windows();
@@ -306,6 +306,7 @@ public class MainController {
             }
             TV tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.channelUp());
+            genericDao.saveOrUpdate(tvObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {
@@ -328,6 +329,7 @@ public class MainController {
             }
             TV tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.channelDown());
+            genericDao.saveOrUpdate(tvObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {
@@ -350,6 +352,7 @@ public class MainController {
             }
             TV tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.volumeUp());
+            genericDao.saveOrUpdate(tvObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {
@@ -372,6 +375,7 @@ public class MainController {
             }
             TV tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.volumeDown());
+            genericDao.saveOrUpdate(tvObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {
@@ -394,6 +398,7 @@ public class MainController {
             }
             Aircondition tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.airTemperatureUp());
+            genericDao.saveOrUpdate(tvObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {
@@ -416,6 +421,95 @@ public class MainController {
             }
             Aircondition tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.airTemperatureDown());
+            genericDao.saveOrUpdate(tvObj);
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/getMode", method = RequestMethod.POST)
+    public void getMode(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<Aircondition> tvList = ((List<Aircondition>) genericDao.loadByColumnRestriction(Aircondition.class, "id", Long.parseLong(deviceId)));
+
+            if (tvList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            Aircondition tvObj = tvList.get(0);
+            String poruka = String.valueOf(tvObj.getMode());
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/getAirTemp", method = RequestMethod.POST)
+    public void getAirTemp(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<Aircondition> tvList = ((List<Aircondition>) genericDao.loadByColumnRestriction(Aircondition.class, "id", Long.parseLong(deviceId)));
+
+            if (tvList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            Aircondition tvObj = tvList.get(0);
+            String poruka = String.valueOf(tvObj.getTemperature());
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/getChannel", method = RequestMethod.POST)
+    public void getChannel(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<TV> tvList = ((List<TV>) genericDao.loadByColumnRestriction(TV.class, "id", Long.parseLong(deviceId)));
+
+            if (tvList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            TV tvObj = tvList.get(0);
+            String poruka = String.valueOf(tvObj.getChannel());
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/getVolume", method = RequestMethod.POST)
+    public void getVolume(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<TV> tvList = ((List<TV>) genericDao.loadByColumnRestriction(TV.class, "id", Long.parseLong(deviceId)));
+
+            if (tvList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            TV tvObj = tvList.get(0);
+            String poruka = String.valueOf(tvObj.getVolume());
             response.getWriter().println(poruka);
 
         } catch (Exception e) {

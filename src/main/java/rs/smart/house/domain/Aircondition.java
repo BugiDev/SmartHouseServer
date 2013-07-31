@@ -78,11 +78,13 @@ public class Aircondition extends AbstractEntity {
 	}
 	
 	public int airTemperatureUp() {
-		return temperature++;
+		temperature = temperature + 1;
+		return temperature;
 	}
 	
 	public int airTemperatureDown() {
-		return temperature--;
+		temperature = temperature - 1;
+		return temperature;
 	}
 
 }

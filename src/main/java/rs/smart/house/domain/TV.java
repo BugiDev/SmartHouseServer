@@ -79,18 +79,22 @@ public class TV extends AbstractEntity {
 	}
 	
 	public int channelUp() {
-		return channel++;
+		channel = channel + 1;
+		return channel;
 	}
 	
 	public int channelDown() {
-		return channel--;
+		channel = channel - 1;
+		return channel;
 	}
 	
 	public int volumeUp() {
-		return volume++;
+		volume = volume + 1;
+		return volume;
 	}
 	
 	public int volumeDown() {
-		return volume--;
+		volume = volume - 1;
+		return volume;
 	}
 }
