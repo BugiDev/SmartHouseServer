@@ -19,6 +19,8 @@ public class Camera extends AbstractEntity {
 	private String path;
 	
 	String room;
+        
+        private boolean alarmOnOff;
 
 	public Long getId() {
 		return id;
@@ -56,6 +58,32 @@ public class Camera extends AbstractEntity {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    /**
+     * @return the alarmOnOff
+     */
+    public boolean isAlarmOnOff() {
+        return alarmOnOff;
+    }
+
+    /**
+     * @param alarmOnOff the alarmOnOff to set
+     */
+    public void setAlarmOnOff(boolean alarmOnOff) {
+        this.alarmOnOff = alarmOnOff;
+    }
+    
+    public boolean changeAlarmOnOff(){
+    
+        if(isAlarmOnOff()){
+            setAlarmOnOff(false);
+        }else{
+            setAlarmOnOff(true);
+        }
+        
+        return isAlarmOnOff();
+        
     }
 	
 

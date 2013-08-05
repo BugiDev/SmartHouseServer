@@ -21,6 +21,7 @@ import rs.smart.house.domain.Boiler;
 import rs.smart.house.domain.Camera;
 import rs.smart.house.domain.Devices;
 import rs.smart.house.domain.Light;
+import rs.smart.house.domain.PotentiometerLight;
 import rs.smart.house.domain.TV;
 import rs.smart.house.domain.Temperature;
 import rs.smart.house.domain.User;
@@ -81,6 +82,13 @@ public class MainController {
             light4 = (Light) genericDao.save(light4);
             dev.getLightList().add(light4);
             
+            PotentiometerLight potLight = new PotentiometerLight();
+            potLight.setPowerMeter(0);
+            potLight.setRoom("Terasa");
+            potLight.setDevice(dev);
+            potLight = (PotentiometerLight) genericDao.save(potLight);
+            dev.getPotLightList().add(potLight);
+            
             Boiler boiler = new Boiler();
             boiler.setPower(false);
             boiler.setRoom("Kupatilo");
@@ -115,6 +123,7 @@ public class MainController {
             
             Camera cam = new Camera();
             cam.setRoom("Dnevna");
+            cam.setAlarmOnOff(false);
             URL url = new URL("http://213.251.201.196/anony/mjpg.cgi");
             cam.setPath(url.toString());
             cam.setDevice(dev);
@@ -510,6 +519,75 @@ public class MainController {
             }
             TV tvObj = tvList.get(0);
             String poruka = String.valueOf(tvObj.getVolume());
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/cameraAlarmOnOff", method = RequestMethod.POST)
+    public void cameraAlarmOnOff(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<Camera> cameraList = ((List<Camera>) genericDao.loadByColumnRestriction(Camera.class, "id", Long.parseLong(deviceId)));
+
+            if (cameraList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            Camera cameraObj = cameraList.get(0);
+            String poruka = String.valueOf(cameraObj.changeAlarmOnOff());
+            genericDao.saveOrUpdate(cameraObj);
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+    
+    @RequestMapping(value = "/potLightUp", method = RequestMethod.POST)
+    public void potLightUp(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<PotentiometerLight> potLightList = ((List<PotentiometerLight>) genericDao.loadByColumnRestriction(PotentiometerLight.class, "id", Long.parseLong(deviceId)));
+
+            if (potLightList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            PotentiometerLight  potLightObj = potLightList.get(0);
+            String poruka = String.valueOf(potLightObj.powerMeterUp());
+            genericDao.saveOrUpdate(potLightObj);
+            response.getWriter().println(poruka);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info(new Date() + " GRESKA! " + e.getMessage());
+            response.setStatus(404);
+            response.getWriter().println(new Date() + " GRESKA! -  " + e.getMessage());
+        }
+
+    }
+
+    @RequestMapping(value = "/potLightDown", method = RequestMethod.POST)
+    public void potLightDown(@RequestParam("deviceID") String deviceId, HttpServletResponse response) throws IOException {
+
+        try {
+            List<PotentiometerLight> potLightList = ((List<PotentiometerLight>) genericDao.loadByColumnRestriction(PotentiometerLight.class, "id", Long.parseLong(deviceId)));
+
+            if (potLightList.size() < 1) {
+                throw new SenergyException("User not found");
+            }
+            PotentiometerLight  potLightObj = potLightList.get(0);
+            String poruka = String.valueOf(potLightObj.powerMeterDown());
+            genericDao.saveOrUpdate(potLightObj);
             response.getWriter().println(poruka);
 
         } catch (Exception e) {

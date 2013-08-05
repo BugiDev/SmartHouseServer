@@ -42,6 +42,9 @@ public class Devices extends AbstractEntity {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(mappedBy = "device")
 	private List<Windows> windowsList = new ArrayList<Windows>();
+        @LazyCollection(LazyCollectionOption.FALSE)
+        @OneToMany(mappedBy = "device")
+	private List<PotentiometerLight> potLightList = new ArrayList<PotentiometerLight>();
 
 	public Long getId() {
 		return id;
@@ -114,6 +117,20 @@ public class Devices extends AbstractEntity {
 	public void setWindowsList(List<Windows> windowsList) {
 		this.windowsList = windowsList;
 	}
+
+    /**
+     * @return the potLightList
+     */
+    public List<PotentiometerLight> getPotLightList() {
+        return potLightList;
+    }
+
+    /**
+     * @param potLightList the potLightList to set
+     */
+    public void setPotLightList(List<PotentiometerLight> potLightList) {
+        this.potLightList = potLightList;
+    }
 
 	
 
